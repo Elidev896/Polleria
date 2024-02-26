@@ -1,20 +1,25 @@
 package vistas;
 
-
+import javax.swing.table.DefaultTableModel;
+import controladores.Cprod;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import modelo.Producto;
 
 public class Vprod extends javax.swing.JInternalFrame {
 
-   private Vprod vprd;    
-   public static String produ;
-    
-    
+    private Vprod vprd;
+    public static String produ;
+    private Cprod cp;
+    private boolean b = false; // bandera para saber si vamos a agregar o modificar el producto
+
     public Vprod() {
         initComponents();
-        
+        llenarTabla();
         produ = "abierto";
-        int a = Vprincipal.escritorio.getWidth()-this.getWidth();
-        int b = Vprincipal.escritorio.getHeight()-this.getHeight();
-        setLocation(a/2, b/2);
+        int a = Vprincipal.escritorio.getWidth() - this.getWidth();
+        int b = Vprincipal.escritorio.getHeight() - this.getHeight();
+        setLocation(a / 2, b / 2);
         setVisible(true);
     }
 
@@ -30,7 +35,7 @@ public class Vprod extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         lbl_bienvenida = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         btn_guardar = new javax.swing.JButton();
         btn_modificar = new javax.swing.JButton();
         btn_baja = new javax.swing.JButton();
@@ -39,8 +44,6 @@ public class Vprod extends javax.swing.JInternalFrame {
         txt_desc = new javax.swing.JTextField();
         lbl_stock = new javax.swing.JLabel();
         txt_stock = new javax.swing.JTextField();
-        lbl_cS = new javax.swing.JLabel();
-        txt_cS = new javax.swing.JTextField();
         lbl_precio = new javax.swing.JLabel();
         txt_precio = new javax.swing.JTextField();
 
@@ -67,11 +70,11 @@ public class Vprod extends javax.swing.JInternalFrame {
 
         jPanel1.setBackground(new java.awt.Color(237, 174, 73));
 
-        lbl_bienvenida.setFont(new java.awt.Font("Frank Ruhl Hofshi", 0, 24)); // NOI18N
+        lbl_bienvenida.setFont(new java.awt.Font("Frank Ruhl Hofshi", 1, 24)); // NOI18N
         lbl_bienvenida.setForeground(new java.awt.Color(209, 16, 58));
         lbl_bienvenida.setText("Productos");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -82,17 +85,27 @@ public class Vprod extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla);
 
         btn_guardar.setBackground(new java.awt.Color(224, 224, 224));
         btn_guardar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_guardar.setForeground(new java.awt.Color(209, 16, 58));
         btn_guardar.setText("Agregar");
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
 
         btn_modificar.setBackground(new java.awt.Color(224, 224, 224));
         btn_modificar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_modificar.setForeground(new java.awt.Color(209, 16, 58));
         btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         btn_baja.setBackground(new java.awt.Color(224, 224, 224));
         btn_baja.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -113,10 +126,6 @@ public class Vprod extends javax.swing.JInternalFrame {
         lbl_stock.setForeground(new java.awt.Color(209, 16, 58));
         lbl_stock.setText("Stock");
 
-        lbl_cS.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbl_cS.setForeground(new java.awt.Color(209, 16, 58));
-        lbl_cS.setText("Stock crítico");
-
         lbl_precio.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbl_precio.setForeground(new java.awt.Color(209, 16, 58));
         lbl_precio.setText("Precio");
@@ -126,41 +135,25 @@ public class Vprod extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(235, 235, 235)
-                .addComponent(lbl_bienvenida)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(lbl_stock)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                        .addComponent(lbl_cS)
-                        .addGap(34, 34, 34))
+                        .addGap(83, 83, 83)
+                        .addComponent(lbl_desc))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(txt_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txt_cS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52))
+                        .addGap(91, 91, 91)
+                        .addComponent(btn_guardar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(83, 83, 83)
-                                .addComponent(lbl_desc))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(txt_desc, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(113, 113, 113)
-                                .addComponent(lbl_precio))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(91, 91, 91)
-                                .addComponent(btn_guardar)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(lbl_stock)
+                            .addComponent(lbl_precio)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txt_stock, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_desc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(txt_precio))))
+                .addGap(68, 83, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btn_modificar)
@@ -168,31 +161,28 @@ public class Vprod extends javax.swing.JInternalFrame {
                         .addComponent(btn_baja)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_borrar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(lbl_bienvenida)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(lbl_bienvenida)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addGap(24, 24, 24)
                         .addComponent(lbl_desc)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_desc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbl_stock)
-                            .addComponent(lbl_cS))
+                        .addComponent(lbl_stock)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_cS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txt_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbl_precio)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -200,10 +190,11 @@ public class Vprod extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_guardar)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_modificar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_baja)
-                    .addComponent(btn_borrar))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_modificar)
+                        .addComponent(btn_borrar)))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -216,6 +207,61 @@ public class Vprod extends javax.swing.JInternalFrame {
         produ = null;
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        String d = txt_desc.getText();
+        float s = Float.parseFloat(txt_stock.getText());
+        float p = Float.parseFloat(txt_precio.getText());
+
+        Producto prod = new Producto();
+        Cprod cpoduct = new Cprod();
+
+        if (b == false) {
+            prod.setDescripcion(d);
+            prod.setStock(s);
+            prod.setPrecio(p);
+            cpoduct.agregarProducto(prod);
+            llenarTabla();
+            JOptionPane.showMessageDialog(null, "Producto "+ prod.getDescripcion()+ " creado");
+        }
+        else{
+            prod.setDescripcion(d);
+            prod.setStock(s);
+            prod.setPrecio(p);
+            cpoduct.modificarProductos(prod);
+            llenarTabla();
+            JOptionPane.showMessageDialog(null, "Producto "+ prod.getDescripcion()+" modificado");
+        }
+    }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+       int fila = tabla.getSelectedRow();
+       if(fila >= 0){
+           b = true;
+           txt_desc.setText(tabla.getValueAt(fila, 0).toString());
+           txt_stock.setText(tabla.getValueAt(fila, 1).toString());
+           txt_precio.setText(tabla.getValueAt(fila, 2).toString());
+       }
+       else{
+           JOptionPane.showMessageDialog(null, "No se seleccionó ningún producto(fila)");
+       }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    public void llenarTabla() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        cp = new Cprod();
+        ArrayList<Producto> list_prod = cp.traerProductos();
+        modelo.addColumn("Descripción");
+        modelo.addColumn("Stock");
+        modelo.addColumn("Precio");
+        tabla.setModel(modelo);
+        String[] fila = new String[3];
+        for (int i = 0; i < list_prod.size(); i++) {
+            fila[0] = list_prod.get(i).getDescripcion();
+            fila[1] = String.valueOf(list_prod.get(i).getStock());
+            fila[2] = String.valueOf(list_prod.get(i).getPrecio());
+            modelo.addRow(fila);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_baja;
@@ -224,13 +270,11 @@ public class Vprod extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_modificar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbl_bienvenida;
-    private javax.swing.JLabel lbl_cS;
     private javax.swing.JLabel lbl_desc;
     private javax.swing.JLabel lbl_precio;
     private javax.swing.JLabel lbl_stock;
-    private javax.swing.JTextField txt_cS;
+    private javax.swing.JTable tabla;
     private javax.swing.JTextField txt_desc;
     private javax.swing.JTextField txt_precio;
     private javax.swing.JTextField txt_stock;

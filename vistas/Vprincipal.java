@@ -1,5 +1,6 @@
 package vistas;
 
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 
 
@@ -127,7 +128,7 @@ public class Vprincipal extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null, "El menú productos ya está abierto");
         }
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
         }
     }//GEN-LAST:event_Item_prod1ActionPerformed
     
