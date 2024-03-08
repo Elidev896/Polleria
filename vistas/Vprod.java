@@ -46,6 +46,7 @@ public class Vprod extends javax.swing.JInternalFrame {
         txt_stock = new javax.swing.JTextField();
         lbl_precio = new javax.swing.JLabel();
         txt_precio = new javax.swing.JTextField();
+        txt_cod = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -74,6 +75,7 @@ public class Vprod extends javax.swing.JInternalFrame {
         lbl_bienvenida.setForeground(new java.awt.Color(209, 16, 58));
         lbl_bienvenida.setText("Productos");
 
+        tabla.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -85,6 +87,7 @@ public class Vprod extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabla.setRowHeight(40);
         jScrollPane1.setViewportView(tabla);
 
         btn_guardar.setBackground(new java.awt.Color(224, 224, 224));
@@ -111,11 +114,21 @@ public class Vprod extends javax.swing.JInternalFrame {
         btn_baja.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_baja.setForeground(new java.awt.Color(209, 16, 58));
         btn_baja.setText("Dar de baja");
+        btn_baja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_bajaActionPerformed(evt);
+            }
+        });
 
         btn_borrar.setBackground(new java.awt.Color(224, 224, 224));
         btn_borrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btn_borrar.setForeground(new java.awt.Color(209, 16, 58));
-        btn_borrar.setText("Borrar");
+        btn_borrar.setText("Recuperar");
+        btn_borrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_borrarActionPerformed(evt);
+            }
+        });
 
         lbl_desc.setBackground(new java.awt.Color(209, 16, 58));
         lbl_desc.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -130,6 +143,8 @@ public class Vprod extends javax.swing.JInternalFrame {
         lbl_precio.setForeground(new java.awt.Color(209, 16, 58));
         lbl_precio.setText("Precio");
 
+        txt_cod.setEditable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -137,22 +152,24 @@ public class Vprod extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(lbl_desc))
+                        .addGap(54, 54, 54)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_precio, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(txt_stock)
+                            .addComponent(txt_desc, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(txt_cod)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
+                        .addGap(79, 79, 79)
                         .addComponent(btn_guardar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_stock)
-                            .addComponent(lbl_precio)))
+                        .addGap(106, 106, 106)
+                        .addComponent(lbl_precio))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txt_stock, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_desc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                            .addComponent(txt_precio))))
+                        .addGap(108, 108, 108)
+                        .addComponent(lbl_stock))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(lbl_desc)))
                 .addGap(68, 83, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -171,31 +188,33 @@ public class Vprod extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(lbl_bienvenida)
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(lbl_desc)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_desc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_stock)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbl_precio)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_guardar)))
-                .addGap(18, 18, 18)
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_baja)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_modificar)
-                        .addComponent(btn_borrar)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_baja)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_modificar)
+                                .addComponent(btn_borrar))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txt_cod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(lbl_desc)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_desc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbl_stock)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_precio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_guardar)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -208,57 +227,90 @@ public class Vprod extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+
         String d = txt_desc.getText();
         float s = Float.parseFloat(txt_stock.getText());
         float p = Float.parseFloat(txt_precio.getText());
 
         Producto prod = new Producto();
-        Cprod cpoduct = new Cprod();
+        cp = new Cprod();
 
         if (b == false) {
+            prod.setId_producto(1);
             prod.setDescripcion(d);
             prod.setStock(s);
             prod.setPrecio(p);
-            cpoduct.agregarProducto(prod);
+            cp.agregarProducto(prod);
             llenarTabla();
-            JOptionPane.showMessageDialog(null, "Producto "+ prod.getDescripcion()+ " creado");
-        }
-        else{
+            JOptionPane.showMessageDialog(null, "Producto " + prod.getDescripcion() + " creado");
+        } else {
+            prod.setId_producto(Integer.parseInt(txt_cod.getText()));
             prod.setDescripcion(d);
             prod.setStock(s);
             prod.setPrecio(p);
-            cpoduct.modificarProductos(prod);
+            cp.modificarProductos(prod);
             llenarTabla();
-            JOptionPane.showMessageDialog(null, "Producto "+ prod.getDescripcion()+" modificado");
+            JOptionPane.showMessageDialog(null, "Producto " + prod.getDescripcion() + " modificado");
+            b = false;
         }
+        txt_cod.setText("");
+        txt_desc.setText("");
+        txt_stock.setText("");
+        txt_precio.setText("");
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
-       int fila = tabla.getSelectedRow();
-       if(fila >= 0){
-           b = true;
-           txt_desc.setText(tabla.getValueAt(fila, 0).toString());
-           txt_stock.setText(tabla.getValueAt(fila, 1).toString());
-           txt_precio.setText(tabla.getValueAt(fila, 2).toString());
-       }
-       else{
-           JOptionPane.showMessageDialog(null, "No se seleccionó ningún producto(fila)");
-       }
+        int fila = tabla.getSelectedRow();
+        if (fila >= 0) {
+            b = true;
+            txt_cod.setText(tabla.getValueAt(fila, 0).toString());
+            txt_desc.setText(tabla.getValueAt(fila, 1).toString());
+            txt_stock.setText(tabla.getValueAt(fila, 2).toString());
+            txt_precio.setText(tabla.getValueAt(fila, 3).toString());
+            llenarTabla();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningún producto(fila)");
+        }
     }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_bajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bajaActionPerformed
+        int fila = tabla.getSelectedRow();
+
+        if (fila >= 0) {
+            Producto prod = new Producto();
+
+            prod.setId_producto(Integer.parseInt(tabla.getValueAt(fila, 0).toString()));
+            prod.setDescripcion(tabla.getValueAt(fila, 1).toString());
+            prod.setPrecio(Float.parseFloat(tabla.getValueAt(fila, 2).toString()));
+            prod.setStock(Float.parseFloat(tabla.getValueAt(fila, 3).toString()));
+
+            cp.darBajaProductos(prod);
+            llenarTabla();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningún Producto a eliminar (fila)", "WARNING", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_bajaActionPerformed
+
+    private void btn_borrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_borrarActionPerformed
+        VEprod vpe = new VEprod();
+        vpe.setVisible(true);
+    }//GEN-LAST:event_btn_borrarActionPerformed
 
     public void llenarTabla() {
         DefaultTableModel modelo = new DefaultTableModel();
         cp = new Cprod();
         ArrayList<Producto> list_prod = cp.traerProductos();
+        modelo.addColumn("Id_producto");
         modelo.addColumn("Descripción");
         modelo.addColumn("Stock");
         modelo.addColumn("Precio");
         tabla.setModel(modelo);
-        String[] fila = new String[3];
+        String[] fila = new String[4];
         for (int i = 0; i < list_prod.size(); i++) {
-            fila[0] = list_prod.get(i).getDescripcion();
-            fila[1] = String.valueOf(list_prod.get(i).getStock());
-            fila[2] = String.valueOf(list_prod.get(i).getPrecio());
+            fila[0] = String.valueOf(list_prod.get(i).getId_producto());
+            fila[1] = list_prod.get(i).getDescripcion();
+            fila[2] = String.valueOf(list_prod.get(i).getStock());
+            fila[3] = String.valueOf(list_prod.get(i).getPrecio());
             modelo.addRow(fila);
         }
     }
@@ -275,6 +327,7 @@ public class Vprod extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lbl_precio;
     private javax.swing.JLabel lbl_stock;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextField txt_cod;
     private javax.swing.JTextField txt_desc;
     private javax.swing.JTextField txt_precio;
     private javax.swing.JTextField txt_stock;

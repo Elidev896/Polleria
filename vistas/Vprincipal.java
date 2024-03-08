@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 public class Vprincipal extends javax.swing.JFrame {
     
     private Vprod vprd;
+    private VIventas viv;
     
     /**
      * Creates new form Vprincipal
@@ -97,6 +98,11 @@ public class Vprincipal extends javax.swing.JFrame {
         Menu_ventas.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         Item_venta1.setText("Iniciar venta");
+        Item_venta1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Item_venta1ActionPerformed(evt);
+            }
+        });
         Menu_ventas.add(Item_venta1);
 
         Item_venta2.setText("Mostrar venta");
@@ -131,6 +137,21 @@ public class Vprincipal extends javax.swing.JFrame {
         } catch (HeadlessException e) {
         }
     }//GEN-LAST:event_Item_prod1ActionPerformed
+
+    private void Item_venta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Item_venta1ActionPerformed
+        String vent_i = VIventas.vent;
+        try {
+            if(vent_i==null){
+                viv = new VIventas();
+                escritorio.add(viv);
+                escritorio.moveToFront(viv);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "El programa iniciar venta está abierto");
+            }
+        } catch (HeadlessException e) {
+        }
+    }//GEN-LAST:event_Item_venta1ActionPerformed
     
     /**
      * @param args the command line arguments

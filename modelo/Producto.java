@@ -4,18 +4,15 @@ public class Producto {
     private int id_producto;
     private String descripcion;
     private float stock;
-    private float stock_critico;
-    
     private float precio;
 
     public Producto() {
     }
 
-    public Producto(int id_producto, String descripcion, float stock, float stock_critico, int tipo, float precio) {
+    public Producto(int id_producto, String descripcion, float stock, float precio) {
         this.id_producto = id_producto;
         this.descripcion = descripcion;
         this.stock = stock;
-        this.stock_critico = stock_critico;
         this.precio = precio;
     }   
 
@@ -41,14 +38,6 @@ public class Producto {
 
     public void setStock(float stock) {
         this.stock = stock;
-    }
-
-    public float getStock_critico() {
-        return stock_critico;
-    }
-
-    public void setStock_critico(float stock_critico) {
-        this.stock_critico = stock_critico;
     }
 
     public float getPrecio() {
