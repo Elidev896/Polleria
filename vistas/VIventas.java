@@ -4,6 +4,8 @@
  */
 package vistas;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author elise
@@ -177,6 +179,11 @@ public class VIventas extends javax.swing.JInternalFrame {
         vent = null;
     }//GEN-LAST:event_formInternalFrameClosing
 
+    public void llenarTabla(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
